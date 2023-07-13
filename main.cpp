@@ -228,7 +228,14 @@ void input_try_catch(int& choice){
     try{
         std::cin >> choice;
         if(std::cin.fail()) throw std::invalid_argument("Input must be integer");
+        if(choice >= 1000000 || choice < 0) throw std::out_of_range("The input is out of range");
     } catch(const std::invalid_argument& e){ // If the input is not an integer, it will throw std::invalid_argument
+        system("cls");
+        Box(4, 58, 2, 24);
+        Box(2, 60, 1, 25);
+        gotoxy(2 + ((60 - 39) / 2), 12); std::cerr << "Exception caught: " << e.what() << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
+        exit(0);
+    } catch(const std::out_of_range& e){
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
