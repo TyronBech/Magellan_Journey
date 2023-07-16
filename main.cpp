@@ -79,7 +79,7 @@ std::string User_name;
 // initialized functions
 bool Verification();
 void set_of_choice(std::string user_choice[], int size);
-void input_try_catch(int& choice);
+int input_try_catch(long long choice);
 void open_file(const std::string filename);
 void Persons();
 void Timelines();
@@ -112,8 +112,10 @@ int main(){
             gotoxy(11, 4); std::cout << "Beyond the Horizon: Magellan's Journey" << std::endl;
             gotoxy(((58 - (8 + User_name.length())) / 2) + 2, 5); std::cout << "Welcome " << User_name << std::endl;
             set_of_choice(choices, sizeof(choices)/sizeof(choices[0]));
-            input_try_catch(choice);
+            choice = input_try_catch(static_cast<long long>(choice));
             switch (choice){
+                case 0:
+                break;
                 case 1: Persons();
                 break;
                 case 2: Timelines();
@@ -182,10 +184,12 @@ bool Verification(){
         std::getline(std::cin >> std::ws, User_name);
         gotoxy(6, 6); std::cout << "Verification code: " << code << std::endl;
         gotoxy(6, 7); std::cout << "Enter the code: ";
-        input_try_catch(entered_code);
-        Loading();
+        entered_code = input_try_catch(static_cast<long long>(entered_code));
         if(entered_code == code) return true;
-        else {
+        else if(entered_code == 0){
+            gotoxy(15, 26); system("pause");
+            continue;
+        } else {
             gotoxy(6, 8); std::cout << "The verification did not match" << std::endl;
             counter++;
         }
@@ -224,24 +228,29 @@ void set_of_choice(std::string user_choice[], int size){
 /// to catch possible errors then stop the program safely
 /// @param choice is a referenced variable that will reflect directly to the variable it referenced
 /// once the input is finished the var choice will send the value to the address it referencing
-void input_try_catch(int& choice){
+int input_try_catch(long long choice){
     try{
         std::cin >> choice;
-        if(std::cin.fail()) throw std::invalid_argument("Input must be integer");
-        if(choice >= 1000000 || choice < 0) throw std::out_of_range("The input is out of range");
+        Loading();
+        if(std::cin.fail()) throw std::invalid_argument("Input fail the program");
+        if(choice > INT_MAX) throw std::out_of_range("The input is out of range");
+        return static_cast<int>(choice);
     } catch(const std::invalid_argument& e){ // If the input is not an integer, it will throw std::invalid_argument
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
-        gotoxy(2 + ((60 - 39) / 2), 12); std::cerr << "Exception caught: " << e.what() << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
+        gotoxy(2 + ((60 - 41) / 2), 12); std::cerr << "Exception caught: " << e.what() << std::endl;
+        gotoxy(20, 13); std::cout << "Program is terminated" << "\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
         exit(0);
     } catch(const std::out_of_range& e){
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
-        gotoxy(2 + ((60 - 39) / 2), 12); std::cerr << "Exception caught: " << e.what() << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
-        exit(0);
+        gotoxy(2 + ((60 - 43) / 2), 12); std::cerr << "Exception caught: " << e.what() << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
+        gotoxy(15, 26); system("pause");
+        return 0;
     }
+    return 0;
 }
 /// @brief This function is basically used to read the file and printing it into the console
 /// but first we check the longest length in a line of text, it is necessary to print it
@@ -257,7 +266,6 @@ void open_file(const std::string filename){
     // and the longest length will be stored in the length variable and also scan how many lines
     // are in the file by incrementing y_length varible for each loop
     // once done close the file
-    Loading();
     File.open(filename, std::ios::in);
     if(File.is_open()){
         while(std::getline(File, line)){
@@ -304,8 +312,10 @@ void Persons(){
         system("cls");
         gotoxy(8, 4); std::cout << "Persons related to the exploration of Magellan" << std::endl;
         set_of_choice(Person, sizeof(Person)/sizeof(Person[0]));
-        input_try_catch(choice);
+        choice = input_try_catch(static_cast<long long>(choice));
         switch(choice){
+            case 0:
+            break;
             case 1: open_file(files[0]);
             break;
             case 2: open_file(files[1]);
@@ -352,8 +362,10 @@ void Timelines(){
         system("cls");
         gotoxy(10, 4); std::cout << "Timelines of expedition in the Philippines" << std::endl;
         set_of_choice(Timeline, sizeof(Timeline)/sizeof(Timeline[0]));
-        input_try_catch(choice);
+        choice = input_try_catch(static_cast<long long>(choice));
         switch(choice){
+            case 0:
+            break;
             case 1: open_file(files[0]);
             break;
             case 2: open_file(files[1]);
