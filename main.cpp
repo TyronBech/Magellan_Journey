@@ -225,7 +225,7 @@ void set_of_choice(std::string user_choice[], int size){
 /// @brief This function is used to catch the error of the user in terms of inputs
 /// since the input is always integer, if the user input any character it will cause
 /// invalid_argument then stops the code from running so we develop error handling 
-/// to catch possible errors then stop the program safely
+/// to catch possible errors then continue or stops the program safely
 /// @param choice is a referenced variable that will reflect directly to the variable it referenced
 /// once the input is finished the var choice will send the value to the address it referencing
 int input_try_catch(long long choice){
