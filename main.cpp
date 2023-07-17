@@ -115,6 +115,7 @@ int main(){
             choice = input_try_catch(static_cast<long long>(choice));
             switch (choice){
                 case 0:
+                gotoxy(15, 26); system("pause");
                 break;
                 case 1: Persons();
                 break;
@@ -232,22 +233,27 @@ int input_try_catch(long long choice){
     try{
         std::cin >> choice;
         Loading();
-        if(std::cin.fail()) throw std::invalid_argument("Input fail the program");
-        if(choice > INT_MAX) throw std::out_of_range("The input is out of range");
+        std::cin.exceptions(std::ios_base::failbit);
+        if(choice > std::numeric_limits<int>::max() || choice < std::numeric_limits<int>::min())
+            throw std::overflow_error("The input is out of range");
         return static_cast<int>(choice);
-    } catch(const std::invalid_argument& e){ // If the input is not an integer, it will throw std::invalid_argument
+    } catch(const std::ios_base::failure& e){
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
-        gotoxy(2 + ((60 - 41) / 2), 12); std::cerr << "Exception caught: " << e.what() << std::endl;
-        gotoxy(20, 13); std::cout << "Program is terminated" << "\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
-        exit(0);
-    } catch(const std::out_of_range& e){
+        if(e.code() == std::make_error_code(std::io_errc::stream)){
+            gotoxy(2 + ((60 - 41) / 2), 12); std::cerr << "Exception caught: Input must be integer" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return 0;
+        }
+    } catch(const std::exception& e){
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
         gotoxy(2 + ((60 - 43) / 2), 12); std::cerr << "Exception caught: " << e.what() << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
-        gotoxy(15, 26); system("pause");
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return 0;
     }
     return 0;
