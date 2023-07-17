@@ -223,12 +223,14 @@ void set_of_choice(std::string user_choice[], int size){
     }
     gotoxy(7, static_cast<short>(y_point)); std::cout << "Enter your choice: ";
 }
-/// @brief This function is used to catch the error of the user in terms of inputs
-/// since the input is always integer, if the user input any character it will cause
-/// invalid_argument then stops the code from running so we develop error handling 
-/// to catch possible errors then continue or stops the program safely
-/// @param choice is a referenced variable that will reflect directly to the variable it referenced
-/// once the input is finished the var choice will send the value to the address it referencing
+/// @brief This function is used to check inputs that causes errors.
+/// it is used to let the user continue the use of the program without
+/// terminating the program because of run time errors.
+/// @param choice is a parameter, where the input is stored the it
+/// checks by the function if the variable is valid
+/// @return it will return the number if the user satisfy the requirement
+/// such as inputting a integer, else it will return 0 if the function
+/// encounters an error.
 int input_try_catch(long long choice){
     try{
         std::cin >> choice;
