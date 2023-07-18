@@ -420,7 +420,7 @@ void Loading(){
     for(int i = 0; i < result; i++){
         for(int j = 0; j < 4; j++){
             gotoxy(25, 23); std::cout << "Loading " << symbols[j] << '\r' << std::endl;
-            Sleep(300);
+            Sleep(100);
         }
     }
     gotoxy(25, 23); std::cout << "           " << std::endl;
