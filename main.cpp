@@ -11,6 +11,10 @@ void gotoxy(short x, short y){
     COORD c = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
+void color(){
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(consoleHandle, BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
+}
 /// @brief Box() prints box on a screen based on parameter coordinates
 /// @param x1 is responsible for starting point both x and y coordinates
 /// @param x2 is responsible on last point connected to x1 horizontally
@@ -88,6 +92,7 @@ void Loading();
 int main(){
 
     int choice = 0;
+    color();
     bool result = Verification();
     // This array is main function files that doesn't have subtopics to open so
     // this files will be access directly as long as the user choose the right cases
@@ -109,6 +114,7 @@ int main(){
         // This do while loop is responsible for looping the main menu as user not choosing the exit case
         do{
             system("cls"); // Every loop will clear the screen
+            color();
             gotoxy(11, 4); std::cout << "Beyond the Horizon: Magellan's Journey" << std::endl;
             gotoxy(static_cast<short>(((58 - (8 + User_name.length())) / 2) + 2), 5); std::cout << "Welcome " << User_name << std::endl;
             set_of_choice(choices, sizeof(choices)/sizeof(choices[0]));
