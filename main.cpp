@@ -273,8 +273,7 @@ int input_try_catch(long long choice){
 /// line by line in the console
 /// @param filename is the filename that will be use to open scan, and print into the console
 void open_file(const std::string filename){
-    int length = 0, i = 4;
-    int y_length = 0;
+    int x_length = 0, i = 4, y_length = 0;
     std::string line;
     std::ifstream File;
     // This part of the function is responsible to scan the length of each lines in the file
@@ -284,7 +283,7 @@ void open_file(const std::string filename){
     File.open(filename, std::ios::in);
     if(File.is_open()){
         while(std::getline(File, line)){
-            if(line.length() > length) length = static_cast<int>(line.length());
+            if(line.length() > x_length) x_length = static_cast<int>(line.length());
             y_length++;
         }
     } else {
@@ -296,10 +295,10 @@ void open_file(const std::string filename){
     // ones done close the file
     File.open(filename, std::ios::in);
     if(File.is_open()){
-        Box(64, length + 69, 2, y_length + 5);
-        Box(62, length + 71, 1, y_length + 6);
+        Box(64, x_length + 69, 2, y_length + 5);
+        Box(62, x_length + 71, 1, y_length + 6);
         while(std::getline(File, line)){
-            gotoxy(static_cast<short>(67 + ((length - line.length()) / 2)), static_cast<short>(i)); std::cout << line << std::endl;
+            gotoxy(static_cast<short>(67 + ((x_length - line.length()) / 2)), static_cast<short>(i)); std::cout << line << std::endl;
             i++;
         }
     } else {
