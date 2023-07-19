@@ -277,7 +277,7 @@ void open_file(const std::string filename){
     File.open(filename, std::ios::in);
     if(File.is_open()){
         while(std::getline(File, line)){
-            if(line.length() > length) length = line.length();
+            if(line.length() > length) length = static_cast<int>(line.length());
             y_length++;
         }
     } else {
@@ -415,7 +415,7 @@ void Timelines(){
 /// is used to clear the Loading text if the loading loop is done.
 void Loading(){
     char symbols[] = {'-', '\\', '|', '/'};
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(0)));
     int result = rand() % 4 + 1;
     for(int i = 0; i < result; i++){
         for(int j = 0; j < 4; j++){
