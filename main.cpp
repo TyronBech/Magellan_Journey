@@ -110,7 +110,7 @@ int main(){
         do{
             system("cls"); // Every loop will clear the screen
             gotoxy(11, 4); std::cout << "Beyond the Horizon: Magellan's Journey" << std::endl;
-            gotoxy(((58 - (8 + User_name.length())) / 2) + 2, 5); std::cout << "Welcome " << User_name << std::endl;
+            gotoxy(static_cast<short>(((58 - (8 + User_name.length())) / 2) + 2), 5); std::cout << "Welcome " << User_name << std::endl;
             set_of_choice(choices, sizeof(choices)/sizeof(choices[0]));
             choice = input_try_catch(static_cast<long long>(choice));
             switch (choice){
