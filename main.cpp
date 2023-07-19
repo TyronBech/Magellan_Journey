@@ -168,6 +168,7 @@ int main(){
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
         gotoxy((60 - 22) / 2, 12); std::cout << "Thank you for visiting" << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
+        gotoxy(15, 26); system("pause");
     }
     return 0;
 }
