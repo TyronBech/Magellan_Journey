@@ -87,7 +87,7 @@ void Loading();
 //main function
 int main(){
 
-    int choice;
+    int choice = 0;
     bool result = Verification();
     // This array is main function files that doesn't have subtopics to open so
     // this files will be access directly as long as the user choose the right cases
@@ -303,7 +303,7 @@ void open_file(const std::string filename){
 /// @brief This function is a subtopic for the case 1 of the main function, it is used
 /// to let the user choose which person he/she wants to know
 void Persons(){
-    int choice;
+    int choice = 0;
     // This is the constant array for the files
     const std::string files[] = {
         "Files/Magellan.txt",
@@ -346,7 +346,7 @@ void Persons(){
 /// @brief This function is a subtopic for the case 2 of the main function, it is used
 /// to let the user choose which timeline he/she wants to know
 void Timelines(){
-    int choice;
+    int choice = 0;
     // This is the constant array for the files
     const std::string files[] = {
         "Files/16March1521.txt",
