@@ -4,9 +4,9 @@
 #include<windows.h> // For cursor positioning and box
 #include<random> // For setting random numbers (6 digits) in verification section
 #include<ctime> // For random generator using time
-/// @brief gotoxy() set a specific location in screen then print something on that area
-/// @param x describes the x coordinate
-/// @param y describes the y coordinate
+/// @brief gotoxy() set a specific location in screen then print something on that area.
+/// @param x describes the x coordinate.
+/// @param y describes the y coordinate.
 void gotoxy(short x, short y){
     COORD c = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
@@ -15,11 +15,11 @@ void color(){
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(consoleHandle, BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
 }
-/// @brief Box() prints box on a screen based on parameter coordinates
-/// @param x1 is responsible for starting point both x and y coordinates
-/// @param x2 is responsible on last point connected to x1 horizontally
-/// @param y1 is responsible for starting point both x and y coordinates
-/// @param y2 is responsible on last point connected to y1 vertically
+/// @brief Box() prints box on a screen based on parameter coordinates.
+/// @param x1 is responsible for starting point both x and y coordinates.
+/// @param x2 is responsible on last point connected to x1 horizontally.
+/// @param y1 is responsible for starting point both x and y coordinates.
+/// @param y2 is responsible on last point connected to y1 vertically.
 void Box(int x1, int x2, int y1, int y2){
     int temp = 0;
     temp += x1;
@@ -34,7 +34,7 @@ void Box(int x1, int x2, int y1, int y2){
     }
 }
 /// @brief choices[] is used mainly fot the main function to let the user choose
-/// which topic he/she wants to explore
+/// which topic he/she wants to explore.
 std::string choices[] = {
     "1 - People",
     "2 - Timeline",
@@ -50,7 +50,7 @@ std::string choices[] = {
     "12 - Exit"
 };
 /// @brief Person[] is used to let the use know who are involved in the expedition
-/// and who did Magellan and his crew met while they in the Philippines
+/// and who did Magellan and his crew met while they in the Philippines.
 std::string Person[] = {
     "1 - Magellan",
     "2 - Lapu-Lapu",
@@ -61,7 +61,7 @@ std::string Person[] = {
     "7 - Exit"
 };
 /// @brief Timeline[] is used for identifying the dates of event of the expedition in
-/// in the Philippines
+/// in the Philippines.
 std::string Timeline[] = {
     "1 - March 16, 1521",
     "2 - March 17, 1521",
@@ -78,7 +78,7 @@ std::string Timeline[] = {
     "13 - Oct 27, 1521",
     "14 - Exit"
 };
-/// @brief This variable is used to get the username, show it to the main menu and to use it as part of our review section
+/// @brief This variable is used to get the username, show it to the main menu and to use it as part of our review section.
 std::string User_name;
 // initialized functions
 bool Verification();
@@ -87,15 +87,16 @@ int input_try_catch(long long choice);
 void open_file(const std::string filename);
 void Persons();
 void Timelines();
+void Random_Quiz(std::string filename);
 void Loading();
 //main function
 int main(){
 
-    int choice = 0;
+    int choice = 0, num;
     color();
     bool result = Verification();
     // This array is main function files that doesn't have subtopics to open so
-    // this files will be access directly as long as the user choose the right cases
+    // this files will be access directly as long as the user choose the right cases.
     const std::string Basic_file[] = {
         "Files/Battle_of_Mactan.txt",
         "Files/Ships.txt", 
@@ -106,12 +107,17 @@ int main(){
         "Files/Expedition.txt",
         "Files/About.txt"
     };
+    const std::string Quizz_files[] = {
+        "Quiz1.txt",
+        "Quiz2.txt",
+        "Quiz3.txt"
+    };
     // Do while loop is used for the user to repeat choosing the cases
     // to access files as long as user did not choose the exit case
-    // the loop will continue
-    // The if statement is responsible for showing the main menu if the user satisfy the verification
+    // the loop will continue.
+    // The if statement is responsible for showing the main menu if the user satisfy the verification.
     if(result){
-        // This do while loop is responsible for looping the main menu as user not choosing the exit case
+        // This do while loop is responsible for looping the main menu as user not choosing the exit case.
         do{
             system("cls"); // Every loop will clear the screen
             color();
@@ -147,23 +153,27 @@ int main(){
                 break;
                 case 9: open_file(Basic_file[6]);
                 gotoxy(15, 26); system("pause");
-                break;
                 case 10:
+                srand(static_cast<unsigned int>(time(0)));
+                num = rand() % 3 + 1;
+                Random_Quiz(Quizz_files[num]);
+                break;
+                case 11:
                 gotoxy(7, 22); std::cout << "Go to the link for feedback (ctrl + click)" << std::endl;
                 gotoxy(7, 23); std::cout << "https://bit.ly/Magellan_expedition" << std::endl;
                 gotoxy(15, 26); system("pause");
                 break;
-                case 11: open_file(Basic_file[7]);
+                case 12: open_file(Basic_file[7]);
                 gotoxy(15, 26); system("pause");
                 break;
-                case 12: // Exit case
+                case 13: // Exit case
                 break;
                 default: gotoxy(7, 20); std::cout << "That is a invalid choice" << std::endl; // Invalid message
                 gotoxy(15, 26); system("pause");
                 break;
             }
-        }while(choice != 12);
-        // If the loop ends it will clear the screen and print the Box() once again the print Thank message
+        }while(choice != 13);
+        // If the loop ends it will clear the screen and print the Box() once again the print Thank message.
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
@@ -174,8 +184,8 @@ int main(){
 }
 /// @brief This function is used to verify the user first by getting his/her name and
 /// inputting the right verification code before entering the main menu
-/// It uses rand() to generate a random number for verification
-/// @return it returns true if the user satisfy the verification else false if he/she tried 3 times
+/// It uses rand() to generate a random number for verification.
+/// @return it returns true if the user satisfy the verification else false if he/she tried 3 times.
 bool Verification(){
     std::random_device rand;
     std::mt19937 generator(rand());
@@ -217,9 +227,9 @@ bool Verification(){
 /// each std::cout has its own coordinates, it share coordinates with x but +1 in each y coordinates
 /// as you can see the i + 6 and the y_point increments to identify the possible position of text
 /// for inputting in the y axis as you see in its gotoxy so the number of std::cout will defined its position
-/// we also built a box for proper layout of the text in the screen
-/// @param user_choice is the array used based on user choice that will print on the console
-/// @param size is the size of the array to identify the stopping condition of the for loop
+/// we also built a box for proper layout of the text in the screen.
+/// @param user_choice is the array used based on user choice that will print on the console.
+/// @param size is the size of the array to identify the stopping condition of the for loop.
 void set_of_choice(std::string user_choice[], int size){
     int y_point = 7;
     Box(4, 58, 2, 24);
@@ -234,7 +244,7 @@ void set_of_choice(std::string user_choice[], int size){
 /// it is used to let the user continue the use of the program without
 /// terminating the program because of run time errors.
 /// @param choice is a parameter, where the input is stored the it
-/// checks by the function if the variable is valid
+/// checks by the function if the variable is valid.
 /// @return it will return the number if the user satisfy the requirement
 /// such as inputting a integer, else it will return 0 if the function
 /// encounters an error.
@@ -270,15 +280,15 @@ int input_try_catch(long long choice){
 /// @brief This function is basically used to read the file and printing it into the console
 /// but first we check the longest length in a line of text, it is necessary to print it
 /// in the console correctly, then once finished the file closed and reopen to print the file
-/// line by line in the console
-/// @param filename is the filename that will be use to open scan, and print into the console
+/// line by line in the console.
+/// @param filename is the filename that will be use to open scan, and print into the console.
 void open_file(const std::string filename){
     int x_length = 0, i = 4, y_length = 0;
     std::string line;
     std::ifstream File;
     // This part of the function is responsible to scan the length of each lines in the file
     // and the longest length will be stored in the length variable and also scan how many lines
-    // are in the file by incrementing y_length varible for each loop
+    // are in the file by incrementing y_length varible for each loop.
     // once done close the file
     File.open(filename, std::ios::in);
     if(File.is_open()){
@@ -291,7 +301,7 @@ void open_file(const std::string filename){
     }
     File.close();
     // This part of the function is doing the printing, the length and y_length is used
-    // to specifically print the line in the center of the box
+    // to specifically print the line in the center of the box.
     // ones done close the file
     File.open(filename, std::ios::in);
     if(File.is_open()){
@@ -307,7 +317,7 @@ void open_file(const std::string filename){
     File.close();
 }
 /// @brief This function is a subtopic for the case 1 of the main function, it is used
-/// to let the user choose which person he/she wants to know
+/// to let the user choose which person he/she wants to know.
 void Persons(){
     int choice = 0;
     // This is the constant array for the files
@@ -321,7 +331,7 @@ void Persons(){
     };
     // Do while loop for printing the choices, inputting, cases, error handling
     // this part is completely the same as the main function just the number of
-    // cases and the file wants to open are the difference
+    // cases and the file wants to open are the difference.
     do{
         system("cls");
         gotoxy(8, 4); std::cout << "Persons related to the exploration of Magellan" << std::endl;
@@ -350,7 +360,7 @@ void Persons(){
     }while(choice != 7);
 }
 /// @brief This function is a subtopic for the case 2 of the main function, it is used
-/// to let the user choose which timeline he/she wants to know
+/// to let the user choose which timeline he/she wants to know.
 void Timelines(){
     int choice = 0;
     // This is the constant array for the files
@@ -371,7 +381,7 @@ void Timelines(){
     };
     // Do while loop for printing the choices, inputting, cases, error handling
     // this part is completely the same as the main function just the number of
-    // cases and the file wants to open are the difference
+    // cases and the file wants to open are the difference.
     do{
         system("cls");
         gotoxy(10, 4); std::cout << "Timelines of expedition in the Philippines" << std::endl;
@@ -413,6 +423,69 @@ void Timelines(){
         }
         gotoxy(15, 26); system("pause");
     }while(choice != 14);
+}
+/// @brief This function is responsible for printing, aswering and counting of scores
+/// The function will use the text files to gather all questions, answers and keys
+/// that shall be stored in a structure named Quizz_content.
+/// This function will open the file since it has different approach.
+/// @param filename the filename is a parameter to open a specific file related to
+/// quiz game, the file is randomly selected in the main function case 10.
+void Random_Quiz(std::string filename){
+    struct Quizz_content{
+        std::string question;
+        std::string choices[4];
+        std::string key;
+    };
+    std::vector<std::string> contents;
+    std::ifstream file;
+    std::string line;
+    char choice = 0;
+    file.open(filename, std::ios::in);
+    if(file.is_open()){
+        while(std::getline(file, line)) contents.push_back(line);
+    } else {
+        gotoxy(21, 23); std::cout << "The file did not open" << std::endl;
+    }
+    Quizz_content quiz_set[5];
+    int score = 0;
+    for(int i = 0, j = 0; i < 5; i++, j += 6){
+        quiz_set[i].question = contents[j];
+        quiz_set[i].key = contents[j+1];
+        quiz_set[i].choices[0] = contents[j+2];
+        quiz_set[i].choices[1] = contents[j+3];
+        quiz_set[i].choices[2] = contents[j+4];
+        quiz_set[i].choices[3] = contents[j+5];
+    }
+    for(int i = 0; i < 5; i++){
+        std::cout << quiz_set[i].question << std::endl;
+        for(int j = 0; j < 4; j++){
+            std::cout << quiz_set[i].choices[j] << std::endl;
+        }
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+        if(choice == quiz_set[i].key[0]){
+            std::cout << "You are correct!" << std::endl;
+            score++;
+        } else {
+            std::cout << "Wrong! The correct answer is: " << quiz_set[i].key << std::endl;
+        }
+    }
+    std::cout << "Your score is: " << score << '/' << 5 << std::endl;
+    switch(score){
+        case 5: std::cout << "You're smart huh! ;)" << std::endl;
+        break;
+        case 4: std::cout << "One more to be perfect, well done." << std::endl;
+        break;
+        case 3: std::cout << "3/5 well done" << std::endl;
+        break;
+        case 2: std::cout << "Need some progress" << std::endl;
+        break;
+        case 1: std::cout << "Sorry! The quizz did not fit to your knowledge" << std::endl;
+        break;
+        case 0: std::cout << "You must like eggs don't you?" << std::endl;
+        break;
+    }
+    gotoxy(15, 26); system("pause");
 }
 /// @brief This function is used to create a loading text on the screen as part of
 /// of the program's feature, this will used symbols like '-', '\\', '|', '/'
