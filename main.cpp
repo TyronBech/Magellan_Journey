@@ -254,10 +254,12 @@ int input_try_catch(long long choice){
     try{
         std::cin >> choice;
         Loading();
+        // Letting the cin to throw it own exceptions
         std::cin.exceptions(std::ios_base::failbit);
         if(choice > std::numeric_limits<int>::max() || choice < std::numeric_limits<int>::min())
             throw std::overflow_error("The input is out of range");
         return static_cast<int>(choice);
+        // Catching the error caused by failed cin
     } catch(const std::ios_base::failure& e){
         system("cls");
         Box(4, 58, 2, 24);
@@ -268,6 +270,7 @@ int input_try_catch(long long choice){
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return 0;
         }
+        // Catching all other exceptions
     } catch(const std::exception& e){
         system("cls");
         Box(4, 58, 2, 24);
@@ -454,6 +457,7 @@ void Random_Quiz(std::string filename){
     }
     Quizz_content quiz_set[5];
     int score = 0;
+    // Putting the valuse of the vector in its designated variable in the struct
     for(int i = 0, j = 0; i < 5; i++, j += 6){
         quiz_set[i].question = contents[j];
         quiz_set[i].key = contents[j+1];
@@ -464,6 +468,9 @@ void Random_Quiz(std::string filename){
     }
     Box(64, 128, 2, 15);
     Box(62, 130, 1, 16);
+    // The actual quiz where questions and possible answers are displayed
+    // to the console then user inputs. Aside from that, the score will
+    // increment if user got the correct answer also other relevant messages
     for(int i = 0; i < 5; i++){
         for(int l = 4; l < 13; l++){
             gotoxy(66, l); std::cout << "                                                      " << std::endl;
@@ -475,6 +482,7 @@ void Random_Quiz(std::string filename){
         gotoxy(67, 10); std::cout << "Enter your choice: ";
         std::cin >> choice;
         choice = toupper(choice);
+        // If user input wrong character this if statement will be used
         if(isdigit(choice)){
             gotoxy(67, 11); std::cout << "You entered a number" << std::endl;
             gotoxy(67, 12); std::cout << "Please enter only these characters(A, B, C, D)" << std::endl;
@@ -490,6 +498,7 @@ void Random_Quiz(std::string filename){
             gotoxy(82, 17); std::cout << "                                     " << std::endl;
             continue;
         }
+        // Displaying the text based on user's answer
         if(choice == quiz_set[i].key[0]){
             gotoxy(67, 11); std::cout << "You are correct!" << std::endl;
             score++;
@@ -500,6 +509,7 @@ void Random_Quiz(std::string filename){
         gotoxy(82, 17); std::cout << "                                     " << std::endl;
     }
     gotoxy(67, 12); std::cout << "Your score is: " << score << '/' << 5 << std::endl;
+    // Additional message for total score
     switch(score){
         case 5: gotoxy(67, 13); std::cout << "You're smart huh! ;)" << std::endl;
         break;
@@ -533,4 +543,3 @@ void Loading(){
     }
     gotoxy(25, 23); std::cout << "           " << std::endl;
 }
-//                                                       
