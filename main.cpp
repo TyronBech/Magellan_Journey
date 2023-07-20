@@ -196,6 +196,7 @@ bool Verification(){
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
+        // This will generate a random number between the value of min and max
         std::uniform_int_distribution<int> distribution(min, max);
         code = distribution(generator);
         gotoxy(21, 3); std::cout << "Verification Section" << std::endl;
@@ -257,6 +258,7 @@ int input_try_catch(long long choice){
         if(choice > std::numeric_limits<int>::max() || choice < std::numeric_limits<int>::min())
             throw std::overflow_error("The input is out of range");
         return static_cast<int>(choice);
+        // This catch will obtain the error cin.exeptions throw
     } catch(const std::ios_base::failure& e){
         system("cls");
         Box(4, 58, 2, 24);
@@ -267,6 +269,7 @@ int input_try_catch(long long choice){
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return 0;
         }
+        // This will get the other exceptions
     } catch(const std::exception& e){
         system("cls");
         Box(4, 58, 2, 24);
@@ -449,6 +452,8 @@ void Random_Quiz(std::string filename){
     }
     Quizz_content quiz_set[5];
     int score = 0;
+    // The for loop will help input all the values of the vector in its
+    // designated variables in the struct
     for(int i = 0, j = 0; i < 5; i++, j += 6){
         quiz_set[i].question = contents[j];
         quiz_set[i].key = contents[j+1];
@@ -459,6 +464,9 @@ void Random_Quiz(std::string filename){
     }
     Box(64, 128, 2, 15);
     Box(62, 130, 1, 16);
+    // This is the part where the quiz will display in the screen,
+    // letting the user choose the answer, and computing for the 
+    // user's score
     for(int i = 0; i < 5; i++){
         for(int l = 4; l < 13; l++){
             gotoxy(66, l); std::cout << "                                                      " << std::endl;
