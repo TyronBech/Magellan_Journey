@@ -85,6 +85,8 @@ std::string User_name;
 bool Verification();
 void set_of_choice(std::string user_choice[], int size);
 int input_try_catch(long long choice);
+std::string decrypt_line(const std::string text, int shift);
+bool decryption(const std::string inputFile, int shift, std::vector<std::string>& lines);
 void open_file(const std::string filename);
 void Persons();
 void Timelines();
@@ -281,6 +283,43 @@ int input_try_catch(long long choice){
     }
     return 0;
 }
+std::string decrypt_line(const std::string text, int shift){
+    const int length = text.length();
+    std::string decrypted_text = "", strNum = "";
+    char base, shifted_char, char_num;
+    for(size_t i = 0; i < length; i++){
+        if(isdigit(text[i])) strNum += text[i];
+        else if(!strNum.empty()){
+            char_num = std::stoi(strNum);
+            base = islower(char_num) ? 'a' : 'A';
+            decrypted_text += ((char_num - base - shift + 26) % 26) + base;
+            strNum = "";
+        } else if(isalpha(text[i])) decrypted_text += text[i] - 'A' + 1;
+        else decrypted_text += text[i];
+    }
+    return decrypted_text;
+}
+bool decryption(const std::string inputFile, int shift, std::vector<std::string>& lines){
+    std::ifstream inFile;
+    inFile.open(inputFile);
+    std::string line;
+    if(inFile.is_open()){
+        while(std::getline(inFile, line)){
+            if(line.empty()){
+                lines.push_back("\n");
+                continue;
+            } else {
+                lines.push_back(decrypt_line(line, shift) + '\n');
+            }
+        }
+        inFile.close();
+    } else {
+        inFile.close();
+        std::cerr << "The file did not open" << std::endl;
+        return false;
+    }
+    return true;
+}
 /// @brief This function is basically used to read the file and printing it into the console
 /// but first we check the longest length in a line of text, it is necessary to print it
 /// in the console correctly, then once finished the file closed and reopen to print the file
@@ -290,35 +329,18 @@ void open_file(const std::string filename){
     int x_length = 0, i = 4, y_length = 0;
     std::string line;
     std::ifstream File;
-    // This part of the function is responsible to scan the length of each lines in the file
-    // and the longest length will be stored in the length variable and also scan how many lines
-    // are in the file by incrementing y_length varible for each loop.
-    // once done close the file
-    File.open(filename, std::ios::in);
-    if(File.is_open()){
-        while(std::getline(File, line)){
-            if(line.length() > x_length) x_length = static_cast<int>(line.length());
-            y_length++;
-        }
-    } else {
-        gotoxy(21, 23); std::cout << "File did not open" << std::endl;
+    std::vector<std::string> lines;
+    bool result = decryption(filename, 7, lines);
+    for(int i = 0; i < lines.size(); i++){
+        if(lines[i].length() > x_length) x_length = static_cast<int>(lines[i].length());
+        y_length++;
     }
-    File.close();
-    // This part of the function is doing the printing, the length and y_length is used
-    // to specifically print the line in the center of the box.
-    // ones done close the file
     File.open(filename, std::ios::in);
-    if(File.is_open()){
-        Box(64, x_length + 69, 2, y_length + 5);
-        Box(62, x_length + 71, 1, y_length + 6);
-        while(std::getline(File, line)){
-            gotoxy(static_cast<short>(67 + ((x_length - line.length()) / 2)), static_cast<short>(i)); std::cout << line << std::endl;
-            i++;
-        }
-    } else {
-        gotoxy(21, 23); std::cout << "File did not open" << std::endl;
+    Box(64, x_length + 69, 2, y_length + 5);
+    Box(62, x_length + 71, 1, y_length + 6);
+    for(int i = 0, y = 4; i < lines.size(); i++, y++){
+        gotoxy(static_cast<short>(68 + ((x_length - lines[i].length()) / 2)), static_cast<short>(y)); std::cout << lines[i] << std::endl;
     }
-    File.close();
 }
 /// @brief This function is a subtopic for the case 1 of the main function, it is used
 /// to let the user choose which person he/she wants to know.
@@ -444,12 +466,7 @@ void Random_Quiz(std::string filename){
     std::ifstream file;
     std::string line;
     char choice = 0;
-    file.open(filename, std::ios::in);
-    if(file.is_open()){
-        while(std::getline(file, line)) contents.push_back(line);
-    } else {
-        gotoxy(21, 23); std::cout << "The file did not open" << std::endl;
-    }
+    bool result = decryption(filename, 7, contents);
     Quizz_content quiz_set[5];
     int score = 0;
     // The for loop will help input all the values of the vector in its
