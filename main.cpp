@@ -459,27 +459,23 @@ void Random_Quiz(std::string filename){
     }
     Box(64, 128, 2, 15);
     Box(62, 130, 1, 16);
-    for(int i = 0, k = 4; i < 5; i++){
+    for(int i = 0; i < 5; i++){
         for(int l = 4; l < 13; l++){
             gotoxy(66, l); std::cout << "                                                      " << std::endl;
         }
         gotoxy(67, 4); std::cout << quiz_set[i].question << std::endl;
-        k++;
         for(int j = 0; j < 4; j++){
             gotoxy(67, j + 6); std::cout << quiz_set[i].choices[j] << std::endl;
-            k++;
         }
         gotoxy(67, 10); std::cout << "Enter your choice: ";
         std::cin >> choice;
         choice = toupper(choice);
-        k++;
         if(choice == quiz_set[i].key[0]){
             gotoxy(67, 11); std::cout << "You are correct!" << std::endl;
             score++;
         } else {
             gotoxy(67, 11); std::cout << "Wrong! The correct answer is: " << quiz_set[i].key << std::endl;
         }
-        k++;
         gotoxy(83, 17); system("pause");
         gotoxy(82, 17); std::cout << "                                     " << std::endl;
     }
