@@ -324,12 +324,12 @@ void Persons(){
     int choice = 0;
     // This is the constant array for the files
     const std::string files[] = {
-        "Files/Magellan.txt",
-        "Files/Lapulapu.txt",
-        "Files/Pigafetta.txt",
-        "Files/Malacca.txt",
-        "Files/Humabon.txt",
-        "Files/Siaui_Colambu.txt"
+        "Files/People/Magellan.txt",
+        "Files/People/Lapulapu.txt",
+        "Files/People/Pigafetta.txt",
+        "Files/People/Malacca.txt",
+        "Files/People/Humabon.txt",
+        "Files/People/Siaui_Colambu.txt"
     };
     // Do while loop for printing the choices, inputting, cases, error handling
     // this part is completely the same as the main function just the number of
@@ -358,7 +358,9 @@ void Persons(){
             break;
             default: gotoxy(7, 15); std::cout << "That is a invalid choice" << std::endl; 
         }
-        gotoxy(15, 26); system("pause");
+        if(choice != 7){
+            gotoxy(15, 26); system("pause");
+        }
     }while(choice != 7);
 }
 /// @brief This function is a subtopic for the case 2 of the main function, it is used
@@ -367,19 +369,19 @@ void Timelines(){
     int choice = 0;
     // This is the constant array for the files
     const std::string files[] = {
-        "Files/16March1521.txt",
-        "Files/17March1521.txt",
-        "Files/18March1521.txt",
-        "Files/27March1521.txt",
-        "Files/29March1521.txt",
-        "Files/31March1521.txt",
-        "Files/4April1521.txt",
-        "Files/7April1521.txt",
-        "Files/27April1521.txt",
-        "Files/2May1521.txt",
-        "Files/30Sept1521.txt",
-        "Files/7Oct1521.txt",
-        "Files/27Oct1521.txt"
+        "Files/Timelines/16March1521.txt",
+        "Files/Timelines/17March1521.txt",
+        "Files/Timelines/18March1521.txt",
+        "Files/Timelines/27March1521.txt",
+        "Files/Timelines/29March1521.txt",
+        "Files/Timelines/31March1521.txt",
+        "Files/Timelines/4April1521.txt",
+        "Files/Timelines/7April1521.txt",
+        "Files/Timelines/27April1521.txt",
+        "Files/Timelines/2May1521.txt",
+        "Files/Timelines/30Sept1521.txt",
+        "Files/Timelines/7Oct1521.txt",
+        "Files/Timelines/27Oct1521.txt"
     };
     // Do while loop for printing the choices, inputting, cases, error handling
     // this part is completely the same as the main function just the number of
@@ -423,7 +425,9 @@ void Timelines(){
             default: gotoxy(7, 22); std::cout << "That is a invalid choice" << std::endl;
             break;
         }
-        gotoxy(15, 26); system("pause");
+        if(choice != 14){
+            gotoxy(15, 26); system("pause");
+        }
     }while(choice != 14);
 }
 /// @brief This function is responsible for printing, aswering and counting of scores
@@ -441,7 +445,7 @@ void Random_Quiz(std::string filename){
     std::vector<std::string> contents;
     std::ifstream file;
     std::string line;
-    char choice = 0;
+    char choice;
     file.open(filename, std::ios::in);
     if(file.is_open()){
         while(std::getline(file, line)) contents.push_back(line);
