@@ -45,9 +45,10 @@ std::string choices[] = {
     "7 - Locations where they docked",
     "8 - Pacific Ocean",
     "9 - Goal of the expedition",
-    "10 - Feedback",
-    "11 - About the program",
-    "12 - Exit"
+    "10 - Random Quiz",
+    "11 - Feedback",
+    "12 - About the program",
+    "13 - Exit"
 };
 /// @brief Person[] is used to let the use know who are involved in the expedition
 /// and who did Magellan and his crew met while they in the Philippines.
@@ -92,7 +93,7 @@ void Loading();
 //main function
 int main(){
 
-    int choice = 0, num;
+    int choice = 0, num = -1;
     color();
     bool result = Verification();
     // This array is main function files that doesn't have subtopics to open so
@@ -108,9 +109,9 @@ int main(){
         "Files/About.txt"
     };
     const std::string Quizz_files[] = {
-        "Quiz1.txt",
-        "Quiz2.txt",
-        "Quiz3.txt"
+        "Quiz/Quiz1.txt",
+        "Quiz/Quiz2.txt",
+        "Quiz/Quiz3.txt"
     };
     // Do while loop is used for the user to repeat choosing the cases
     // to access files as long as user did not choose the exit case
@@ -155,7 +156,7 @@ int main(){
                 gotoxy(15, 26); system("pause");
                 case 10:
                 srand(static_cast<unsigned int>(time(0)));
-                num = rand() % 3 + 1;
+                num = rand() % 3;
                 Random_Quiz(Quizz_files[num]);
                 break;
                 case 11:
@@ -456,33 +457,45 @@ void Random_Quiz(std::string filename){
         quiz_set[i].choices[2] = contents[j+4];
         quiz_set[i].choices[3] = contents[j+5];
     }
-    for(int i = 0; i < 5; i++){
-        std::cout << quiz_set[i].question << std::endl;
-        for(int j = 0; j < 4; j++){
-            std::cout << quiz_set[i].choices[j] << std::endl;
+    Box(64, 128, 2, 15);
+    Box(62, 130, 1, 16);
+    for(int i = 0, k = 4; i < 5; i++){
+        for(int l = 4; l < 13; l++){
+            gotoxy(66, l); std::cout << "                                                      " << std::endl;
         }
-        std::cout << "Enter your choice: ";
+        gotoxy(67, 4); std::cout << quiz_set[i].question << std::endl;
+        k++;
+        for(int j = 0; j < 4; j++){
+            gotoxy(67, j + 6); std::cout << quiz_set[i].choices[j] << std::endl;
+            k++;
+        }
+        gotoxy(67, 10); std::cout << "Enter your choice: ";
         std::cin >> choice;
+        choice = toupper(choice);
+        k++;
         if(choice == quiz_set[i].key[0]){
-            std::cout << "You are correct!" << std::endl;
+            gotoxy(67, 11); std::cout << "You are correct!" << std::endl;
             score++;
         } else {
-            std::cout << "Wrong! The correct answer is: " << quiz_set[i].key << std::endl;
+            gotoxy(67, 11); std::cout << "Wrong! The correct answer is: " << quiz_set[i].key << std::endl;
         }
+        k++;
+        gotoxy(83, 17); system("pause");
+        gotoxy(82, 17); std::cout << "                                     " << std::endl;
     }
-    std::cout << "Your score is: " << score << '/' << 5 << std::endl;
+    gotoxy(67, 12); std::cout << "Your score is: " << score << '/' << 5 << std::endl;
     switch(score){
-        case 5: std::cout << "You're smart huh! ;)" << std::endl;
+        case 5: gotoxy(67, 13); std::cout << "You're smart huh! ;)" << std::endl;
         break;
-        case 4: std::cout << "One more to be perfect, well done." << std::endl;
+        case 4: gotoxy(67, 13); std::cout << "One more to be perfect, well done." << std::endl;
         break;
-        case 3: std::cout << "3/5 well done" << std::endl;
+        case 3: gotoxy(67, 13); std::cout << "3/5 well done" << std::endl;
         break;
-        case 2: std::cout << "Need some progress" << std::endl;
+        case 2: gotoxy(67, 13); std::cout << "Need some progress" << std::endl;
         break;
-        case 1: std::cout << "Sorry! The quizz did not fit to your knowledge" << std::endl;
+        case 1: gotoxy(67, 13); std::cout << "Sorry! The quizz did not fit to your knowledge" << std::endl;
         break;
-        case 0: std::cout << "You must like eggs don't you?" << std::endl;
+        case 0: gotoxy(67, 13); std::cout << "You must like eggs don't you?" << std::endl;
         break;
     }
     gotoxy(15, 26); system("pause");
@@ -504,3 +517,4 @@ void Loading(){
     }
     gotoxy(25, 23); std::cout << "           " << std::endl;
 }
+//                                                       
