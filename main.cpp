@@ -477,6 +477,14 @@ void Random_Quiz(std::string filename){
         }
         gotoxy(67, 10); std::cout << "Enter your choice: ";
         std::cin >> choice;
+        if(isdigit(choice)){
+            gotoxy(67, 11); std::cout << "You entered a number" << std::endl;
+            gotoxy(67, 12); std::cout << "Please enter only (A, B, C, or D)" << std::endl;
+            i--;
+            gotoxy(83, 17); system("pause");
+            gotoxy(82, 17); std::cout << "                                     " << std::endl;
+            continue;
+        }
         choice = toupper(choice);
         if(choice == quiz_set[i].key[0]){
             gotoxy(67, 11); std::cout << "You are correct!" << std::endl;

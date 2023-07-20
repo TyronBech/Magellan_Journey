@@ -1,10 +1,16 @@
-This console program is the proposed project
-of the BSIT 1-1 students. This program shows the
-information regarding the Magellan's Expedition
-It uses basic user input functions, basic error
-handling, file handlings and managing the text
-during runtime. This program is not well developed
-since it only run in the console and not advanced
-as typical websites and applications. It only
-uses terminal manipulation to output text and
-opening the file.
+Hello users!
+
+This is the BSIT 1-1 who created the program. We
+created a basic console-based program as part of
+our final project in Computer Programming 2. This
+Program is primarily dedicated to the Magellan's
+Expedition which shaped the Philippines. The
+program is mainly composed of files which can be
+open by the help of file handling, also we put
+restrictions to avoid errors by the help of error
+handling. We also include a 3 random quiz compost
+of 5 different questions to test if the user
+remebers the topics he/she read. Overall to goal
+of the program is to give short yet meaningful
+information regarding Magellan's Expedition. We
+hope you enjoy using our console-based program.
