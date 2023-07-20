@@ -85,8 +85,6 @@ std::string User_name;
 bool Verification();
 void set_of_choice(std::string user_choice[], int size);
 int input_try_catch(long long choice);
-std::string decrypt_line(const std::string text, int shift);
-bool decryption(const std::string inputFile, int shift, std::vector<std::string>& lines);
 void open_file(const std::string filename);
 void Persons();
 void Timelines();
@@ -198,7 +196,7 @@ bool Verification(){
         system("cls");
         Box(4, 58, 2, 24);
         Box(2, 60, 1, 25);
-        // This will generate a random number between the value of min and max
+        // This will generate a random number between min and max
         std::uniform_int_distribution<int> distribution(min, max);
         code = distribution(generator);
         gotoxy(21, 3); std::cout << "Verification Section" << std::endl;
@@ -260,7 +258,6 @@ int input_try_catch(long long choice){
         if(choice > std::numeric_limits<int>::max() || choice < std::numeric_limits<int>::min())
             throw std::overflow_error("The input is out of range");
         return static_cast<int>(choice);
-        // This catch will obtain the error cin.exeptions throw
     } catch(const std::ios_base::failure& e){
         system("cls");
         Box(4, 58, 2, 24);
@@ -271,7 +268,6 @@ int input_try_catch(long long choice){
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return 0;
         }
-        // This will get the other exceptions
     } catch(const std::exception& e){
         system("cls");
         Box(4, 58, 2, 24);
@@ -283,43 +279,6 @@ int input_try_catch(long long choice){
     }
     return 0;
 }
-std::string decrypt_line(const std::string text, int shift){
-    const int length = text.length();
-    std::string decrypted_text = "", strNum = "";
-    char base, shifted_char, char_num;
-    for(size_t i = 0; i < length; i++){
-        if(isdigit(text[i])) strNum += text[i];
-        else if(!strNum.empty()){
-            char_num = std::stoi(strNum);
-            base = islower(char_num) ? 'a' : 'A';
-            decrypted_text += ((char_num - base - shift + 26) % 26) + base;
-            strNum = "";
-        } else if(isalpha(text[i])) decrypted_text += text[i] - 'A' + 1;
-        else decrypted_text += text[i];
-    }
-    return decrypted_text;
-}
-bool decryption(const std::string inputFile, int shift, std::vector<std::string>& lines){
-    std::ifstream inFile;
-    inFile.open(inputFile);
-    std::string line;
-    if(inFile.is_open()){
-        while(std::getline(inFile, line)){
-            if(line.empty()){
-                lines.push_back("\n");
-                continue;
-            } else {
-                lines.push_back(decrypt_line(line, shift) + '\n');
-            }
-        }
-        inFile.close();
-    } else {
-        inFile.close();
-        std::cerr << "The file did not open" << std::endl;
-        return false;
-    }
-    return true;
-}
 /// @brief This function is basically used to read the file and printing it into the console
 /// but first we check the longest length in a line of text, it is necessary to print it
 /// in the console correctly, then once finished the file closed and reopen to print the file
@@ -329,18 +288,35 @@ void open_file(const std::string filename){
     int x_length = 0, i = 4, y_length = 0;
     std::string line;
     std::ifstream File;
-    std::vector<std::string> lines;
-    bool result = decryption(filename, 7, lines);
-    for(int i = 0; i < lines.size(); i++){
-        if(lines[i].length() > x_length) x_length = static_cast<int>(lines[i].length());
-        y_length++;
-    }
+    // This part of the function is responsible to scan the length of each lines in the file
+    // and the longest length will be stored in the length variable and also scan how many lines
+    // are in the file by incrementing y_length varible for each loop.
+    // once done close the file
     File.open(filename, std::ios::in);
-    Box(64, x_length + 69, 2, y_length + 5);
-    Box(62, x_length + 71, 1, y_length + 6);
-    for(int i = 0, y = 4; i < lines.size(); i++, y++){
-        gotoxy(static_cast<short>(68 + ((x_length - lines[i].length()) / 2)), static_cast<short>(y)); std::cout << lines[i] << std::endl;
+    if(File.is_open()){
+        while(std::getline(File, line)){
+            if(line.length() > x_length) x_length = static_cast<int>(line.length());
+            y_length++;
+        }
+    } else {
+        gotoxy(21, 23); std::cout << "File did not open" << std::endl;
     }
+    File.close();
+    // This part of the function is doing the printing, the length and y_length is used
+    // to specifically print the line in the center of the box.
+    // ones done close the file
+    File.open(filename, std::ios::in);
+    if(File.is_open()){
+        Box(64, x_length + 69, 2, y_length + 5);
+        Box(62, x_length + 71, 1, y_length + 6);
+        while(std::getline(File, line)){
+            gotoxy(static_cast<short>(67 + ((x_length - line.length()) / 2)), static_cast<short>(i)); std::cout << line << std::endl;
+            i++;
+        }
+    } else {
+        gotoxy(21, 23); std::cout << "File did not open" << std::endl;
+    }
+    File.close();
 }
 /// @brief This function is a subtopic for the case 1 of the main function, it is used
 /// to let the user choose which person he/she wants to know.
@@ -466,11 +442,14 @@ void Random_Quiz(std::string filename){
     std::ifstream file;
     std::string line;
     char choice = 0;
-    bool result = decryption(filename, 7, contents);
+    file.open(filename, std::ios::in);
+    if(file.is_open()){
+        while(std::getline(file, line)) contents.push_back(line);
+    } else {
+        gotoxy(21, 23); std::cout << "The file did not open" << std::endl;
+    }
     Quizz_content quiz_set[5];
     int score = 0;
-    // The for loop will help input all the values of the vector in its
-    // designated variables in the struct
     for(int i = 0, j = 0; i < 5; i++, j += 6){
         quiz_set[i].question = contents[j];
         quiz_set[i].key = contents[j+1];
@@ -481,9 +460,6 @@ void Random_Quiz(std::string filename){
     }
     Box(64, 128, 2, 15);
     Box(62, 130, 1, 16);
-    // This is the part where the quiz will display in the screen,
-    // letting the user choose the answer, and computing for the 
-    // user's score
     for(int i = 0; i < 5; i++){
         for(int l = 4; l < 13; l++){
             gotoxy(66, l); std::cout << "                                                      " << std::endl;
@@ -494,15 +470,22 @@ void Random_Quiz(std::string filename){
         }
         gotoxy(67, 10); std::cout << "Enter your choice: ";
         std::cin >> choice;
+        choice = toupper(choice);
         if(isdigit(choice)){
             gotoxy(67, 11); std::cout << "You entered a number" << std::endl;
-            gotoxy(67, 12); std::cout << "Please enter only (A, B, C, or D)" << std::endl;
+            gotoxy(67, 12); std::cout << "Please enter only these characters(A, B, C, D)" << std::endl;
+            i--;
+            gotoxy(83, 17); system("pause");
+            gotoxy(82, 17); std::cout << "                                     " << std::endl;
+            continue;
+        } else if(choice != 'A' && choice != 'B' && choice != 'C' && choice != 'D'){
+            gotoxy(67, 11); std::cout << "You entered wrong character" << std::endl;
+            gotoxy(67, 12); std::cout << "Please enter only these characters(A, B, C, D)" << std::endl;
             i--;
             gotoxy(83, 17); system("pause");
             gotoxy(82, 17); std::cout << "                                     " << std::endl;
             continue;
         }
-        choice = toupper(choice);
         if(choice == quiz_set[i].key[0]){
             gotoxy(67, 11); std::cout << "You are correct!" << std::endl;
             score++;
@@ -546,3 +529,4 @@ void Loading(){
     }
     gotoxy(25, 23); std::cout << "           " << std::endl;
 }
+//                                                       
