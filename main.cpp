@@ -169,7 +169,7 @@ int main(){
                 break;
                 case 13: // Exit case
                 break;
-                default: gotoxy(7, 20); std::cout << "That is a invalid choice" << std::endl; // Invalid message
+                default: gotoxy(7, 21); std::cout << "That is a invalid choice" << std::endl; // Invalid message
                 gotoxy(15, 26); system("pause");
                 break;
             }
@@ -180,6 +180,7 @@ int main(){
         Box(2, 60, 1, 25);
         gotoxy((60 - 22) / 2, 12); std::cout << "Thank you for visiting" << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
         gotoxy(15, 26); system("pause");
+        system("cls");
     }
     return 0;
 }
