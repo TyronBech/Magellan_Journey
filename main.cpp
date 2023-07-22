@@ -11,6 +11,8 @@ void gotoxy(short x, short y){
     COORD c = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
+/// @brief This function is used to make the  color of the console background yellow
+/// during run time
 void color(){
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(consoleHandle, BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
