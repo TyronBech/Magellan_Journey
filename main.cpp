@@ -540,7 +540,7 @@ void Loading(){
     int result = rand() % 4 + 1;
     for(int i = 0; i < result; i++){
         for(int j = 0; j < 4; j++){
-            gotoxy(25, 23); std::cout << "Loading " << symbols[j] << '\r' << std::endl;
+            gotoxy(25, 23); std::cout << "Loading " << symbols[j] << std::endl;
             Sleep(100);
         }
     }
