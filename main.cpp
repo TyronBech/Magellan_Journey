@@ -13,9 +13,10 @@ void gotoxy(short x, short y){
 }
 /// @brief This function is used to make the  color of the console background yellow
 /// during run time
-void color(){
+void color(int flag = 0){
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(consoleHandle, BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY);
+    if(flag == 1) SetConsoleTextAttribute(consoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 /// @brief Box() prints box on a screen based on parameter coordinates.
 /// @param x1 is responsible for starting point both x and y coordinates.
@@ -183,6 +184,7 @@ int main(){
         Box(2, 60, 1, 25);
         gotoxy((60 - 22) / 2, 12); std::cout << "Thank you for visiting" << "\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
         gotoxy(15, 26); system("pause");
+        color(1);
         system("cls");
     }
     return 0;
