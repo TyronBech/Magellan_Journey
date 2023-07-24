@@ -156,6 +156,7 @@ int main(){
                 break;
                 case 9: open_file(Basic_file[6]);
                 gotoxy(15, 26); system("pause");
+                break;
                 case 10:
                 srand(static_cast<unsigned int>(time(0)));
                 num = rand() % 3;
